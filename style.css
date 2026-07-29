@@ -342,3 +342,62 @@ h3 {
     margin-top: 10px;
 
 }
+/* ARFID checkbox alignment */
+
+.arfid-toggle {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+}
+
+
+.arfid-toggle input {
+
+    width: 22px;
+
+    height: 22px;
+
+    margin: 0;
+
+}
+
+
+
+
+/* Workout buttons */
+
+.workout-button {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    text-align: left;
+
+    min-height: 60px;
+
+}
+
+
+.check-box {
+
+    font-size: 25px;
+
+}
+
+
+.workout-name {
+
+    flex: 1;
+
+}
