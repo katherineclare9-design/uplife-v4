@@ -5,8 +5,7 @@ const app = document.getElementById("app");
 // SETTINGS
 // =====================
 
-
-function changeMode(mode) {
+function changeMode(mode){
 
     userData.mode = mode;
 
@@ -20,7 +19,7 @@ function changeMode(mode) {
 
 
 
-function toggleARFID() {
+function toggleARFID(){
 
     userData.arfidSupport = !userData.arfidSupport;
 
@@ -32,35 +31,23 @@ function toggleARFID() {
 
 
 
-
-function applyTheme() {
-
+function applyTheme(){
 
     document.body.className = "";
 
-
-    if(userData.mode === "Regular") {
-
+    if(userData.mode === "Regular"){
         document.body.classList.add("regular-theme");
-
     }
 
-
-    if(userData.mode === "Vacation") {
-
+    if(userData.mode === "Vacation"){
         document.body.classList.add("vacation-theme");
-
     }
 
-
-    if(userData.mode === "Period") {
-
+    if(userData.mode === "Period"){
         document.body.classList.add("period-theme");
-
     }
 
 }
-
 
 
 
@@ -90,6 +77,7 @@ function createProfile(){
     new Date().toLocaleDateString();
 
 
+
     userData.profileCreated = true;
 
 
@@ -101,6 +89,7 @@ function createProfile(){
 
     showPage("profile");
 
+
 }
 
 
@@ -108,7 +97,7 @@ function createProfile(){
 
 
 // =====================
-// XP SYSTEM
+// XP
 // =====================
 
 
@@ -141,12 +130,11 @@ function addXP(amount){
 
 
 // =====================
-// COMPLETE WORKOUT
+// WORKOUT COMPLETION
 // =====================
 
 
 function completeWorkout(workoutName){
-
 
 
     if(userData.completedToday.includes(workoutName)){
@@ -165,7 +153,7 @@ function completeWorkout(workoutName){
 
 
 
-    let workout = workoutTypes[workoutName];
+    const workout = workoutTypes[workoutName];
 
 
 
@@ -176,54 +164,58 @@ function completeWorkout(workoutName){
 
 
 
-        if(workout.category === "core")
-            userData.coreWorkouts++;
+        switch(workout.category){
 
 
-        if(workout.category === "strength")
-            userData.strengthWorkouts++;
+            case "core":
+                userData.coreWorkouts++;
+                break;
 
 
-        if(workout.category === "backspot")
-            userData.backspotWorkouts++;
+            case "strength":
+                userData.strengthWorkouts++;
+                break;
 
 
-        if(workout.category === "flexibility")
-            userData.flexibilitySessions++;
+            case "backspot":
+                userData.backspotWorkouts++;
+                break;
 
 
-        if(workout.category === "lowerBody")
-            userData.lowerBodyWorkouts++;
+            case "flexibility":
+                userData.flexibilitySessions++;
+                break;
 
 
-        if(workout.category === "upperBody")
-            userData.upperBodyWorkouts++;
+            case "lowerBody":
+                userData.lowerBodyWorkouts++;
+                break;
 
 
-        if(workout.category === "jump")
-            userData.jumpSessions++;
+            case "upperBody":
+                userData.upperBodyWorkouts++;
+                break;
+
+
+            case "jump":
+                userData.jumpSessions++;
+                break;
+
+
+        }
 
 
     }
 
 
 
-    checkBadges();
-
-
     saveUserData();
 
 
-
-    showPage("training");
+    checkBadges();
 
 
 }
-
-
-
-
-
 
 // =====================
 // PAGE DISPLAY
@@ -234,6 +226,7 @@ function showPage(page){
 
 
 let content = "";
+
 
 
 
@@ -258,6 +251,7 @@ content = `
 </div>
 
 
+
 <div class="card">
 
 <h3>🔥 Streak</h3>
@@ -269,8 +263,19 @@ content = `
 
 `;
 
+
 }
-    if(page === "training"){
+
+
+
+
+
+
+
+// TRAINING
+
+if(page === "training"){
+
 
 
 const days = [
@@ -290,12 +295,6 @@ const today = days[new Date().getDay()];
 
 
 
-let workout;
-
-
-
-// VACATION MODE
-
 if(userData.mode === "Vacation"){
 
 
@@ -311,24 +310,24 @@ content = `
 ${vacationWorkouts.workout.map(item => `
 
 
-<button class="workout-button" onclick="completeWorkout('${item}')">
+<label class="workout-item">
 
 
-<span class="check-box">
+<input
 
-${userData.completedToday.includes(item) ? "✅" : "⬜"}
+type="checkbox"
 
-</span>
+${userData.completedToday.includes(item) ? "checked" : ""}
 
+onchange="completeWorkout('${item}')"
 
-<span class="workout-name">
-
-${item}
-
-</span>
+>
 
 
-</button>
+<span>${item}</span>
+
+
+</label>
 
 
 `).join("")}
@@ -346,12 +345,10 @@ ${item}
 
 
 
-// REGULAR + PERIOD MODE
-
 else{
 
 
-workout = dailyWorkouts[today];
+const workout = dailyWorkouts[today];
 
 
 
@@ -360,7 +357,9 @@ content = `
 
 <h1>💪 Today's Workout</h1>
 
+
 <h2>${today}</h2>
+
 
 
 
@@ -375,28 +374,27 @@ content = `
 ${workout.morning.map(item => `
 
 
-<button class="workout-button" onclick="completeWorkout('${item}')">
+<label class="workout-item">
 
 
-<span class="check-box">
+<input
 
-${userData.completedToday.includes(item) ? "✅" : "⬜"}
+type="checkbox"
 
-</span>
+${userData.completedToday.includes(item) ? "checked" : ""}
 
+onchange="completeWorkout('${item}')"
 
-<span class="workout-name">
-
-${item}
-
-</span>
+>
 
 
-</button>
+<span>${item}</span>
+
+
+</label>
 
 
 `).join("")}
-
 
 
 </div>
@@ -419,27 +417,28 @@ ${userData.mode === "Period" ? "(Optional)" : ""}
 
 
 
+
 ${workout.nighttime.map(item => `
 
 
-<button class="workout-button" onclick="completeWorkout('${item}')">
+<label class="workout-item">
 
 
-<span class="check-box">
+<input
 
-${userData.completedToday.includes(item) ? "✅" : "⬜"}
+type="checkbox"
 
-</span>
+${userData.completedToday.includes(item) ? "checked" : ""}
 
+onchange="completeWorkout('${item}')"
 
-<span class="workout-name">
-
-${item}
-
-</span>
+>
 
 
-</button>
+<span>${item}</span>
+
+
+</label>
 
 
 `).join("")}
@@ -449,13 +448,15 @@ ${item}
 </div>
 
 
-
 `;
 
+
+
 }
 
 
 }
+
 
 
 
@@ -465,7 +466,6 @@ ${item}
 // PROFILE
 
 if(page === "profile"){
-
 
 
 if(!userData.profileCreated){
@@ -488,11 +488,13 @@ content = `
 
 <select id="athleteType">
 
+
 <option>Cheer Athlete</option>
 
 <option>Strength Athlete</option>
 
 <option>Flexibility Athlete</option>
+
 
 </select>
 
@@ -523,6 +525,7 @@ Save Profile
 }
 
 
+
 else{
 
 
@@ -530,6 +533,7 @@ content = `
 
 
 <h1>👤 Profile</h1>
+
 
 
 <div class="card">
@@ -548,6 +552,7 @@ content = `
 
 
 </div>
+
 
 
 
@@ -574,11 +579,11 @@ content = `
 <hr>
 
 
-<p>⭐ Level ${userData.level}</p>
+<p>⭐ Level: ${userData.level}</p>
 
-<p>XP ${userData.xp}</p>
+<p>XP: ${userData.xp}</p>
 
-<p>💪 Total Workouts ${userData.workoutsCompleted}</p>
+<p>💪 Workouts: ${userData.workoutsCompleted}</p>
 
 
 </div>
@@ -596,6 +601,8 @@ content = `
 
 
 
+
+
 // BADGES
 
 if(page === "badges"){
@@ -604,7 +611,7 @@ if(page === "badges"){
 content = `
 
 
-<h1>🏅 Badges</h1>
+<h1>🏅 Badge Gallery</h1>
 
 
 <div class="badge-gallery">
@@ -618,7 +625,9 @@ ${Object.keys(badges).map(badge => `
 
 <h2>${badges[badge].icon}</h2>
 
+
 <h3>${badges[badge].name}</h3>
+
 
 <p>${badges[badge].description}</p>
 
@@ -638,6 +647,7 @@ ${Object.keys(badges).map(badge => `
 
 
 }
+
 
 
 
@@ -696,15 +706,19 @@ content = `
 <h3>🥗 Nutrition</h3>
 
 
+
 <label class="arfid-toggle">
 
 
-<input type="checkbox"
+<input
+
+type="checkbox"
 
 ${userData.arfidSupport ? "checked" : ""}
 
-onclick="toggleARFID()">
+onclick="toggleARFID()"
 
+>
 
 
 <span>
@@ -715,6 +729,7 @@ ARFID Support Feature
 
 
 </label>
+
 
 
 </div>
@@ -791,7 +806,6 @@ app.innerHTML = content + `
 </button>
 
 
-
 </div>
 
 
@@ -800,6 +814,7 @@ app.innerHTML = content + `
 
 
 }
+
 
 
 
