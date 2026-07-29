@@ -435,11 +435,17 @@ ${workout.nighttime.map(item => `
 
 <button class="workout-button" onclick="completeWorkout('${item}')">
 
+<span class="check-box">
 
-${userData.completedToday.includes(item) ? "✅" : "☐"}
+${userData.completedToday.includes(item) ? "✅" : "⬜"}
+
+</span>
+
+<span class="workout-name">
 
 ${item}
 
+</span>
 
 </button>
 
