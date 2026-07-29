@@ -1,13 +1,8 @@
-// UpLift App Logic
-
-
 const app = document.getElementById("app");
 
 
-
-
 // =====================
-// SETTINGS FUNCTIONS
+// SETTINGS
 // =====================
 
 
@@ -37,7 +32,9 @@ function toggleARFID() {
 
 
 
+
 function applyTheme() {
+
 
     document.body.className = "";
 
@@ -68,6 +65,57 @@ function applyTheme() {
 
 
 
+
+// =====================
+// PROFILE CREATION
+// =====================
+
+
+function createProfile() {
+
+
+    userData.profileName =
+        document.getElementById("profileName").value;
+
+
+    userData.athleteType =
+        document.getElementById("athleteType").value;
+
+
+    userData.goal =
+        document.getElementById("goal").value;
+
+
+
+    userData.profileDate =
+        new Date().toLocaleDateString();
+
+
+
+    userData.profileCreated = true;
+
+
+
+    saveUserData();
+
+
+
+    checkBadges();
+
+
+
+    showPage("profile");
+
+
+}
+
+
+
+
+
+
+
+
 // =====================
 // COMPLETE WORKOUT
 // =====================
@@ -82,7 +130,9 @@ function completeWorkout(workoutName) {
         userData.completedWorkouts.push(workoutName);
 
 
+
         const workout = workoutTypes[workoutName];
+
 
 
         if (workout) {
@@ -134,6 +184,13 @@ function completeWorkout(workoutName) {
             }
 
 
+            if (workout.category === "jump") {
+
+                userData.jumpSessions++;
+
+            }
+
+
         }
 
 
@@ -150,6 +207,7 @@ function completeWorkout(workoutName) {
     }
 
 
+
     showPage("training");
 
 
@@ -160,8 +218,9 @@ function completeWorkout(workoutName) {
 
 
 
+
 // =====================
-// SHOW PAGES
+// PAGE DISPLAY
 // =====================
 
 
@@ -174,7 +233,9 @@ function showPage(page) {
 
 
 
+
     // HOME
+
 
     if (page === "home") {
 
@@ -182,17 +243,17 @@ function showPage(page) {
         content = `
 
 
-        <h1>💖 UpLift</h1>
-
-
-        <h2>🏠 Home</h2>
+        <h1>💖 FULL OUT</h1>
 
 
         <div class="card">
+
 
         <h3>⭐ Level ${userData.level}</h3>
 
+
         <p>${userData.xp}/${userData.xpToNextLevel} XP</p>
+
 
         </div>
 
@@ -200,24 +261,19 @@ function showPage(page) {
 
         <div class="card">
 
-        <h3>🔥 Daily Streak</h3>
+
+        <h3>🔥 Streak</h3>
+
 
         <p>${userData.streak} Days</p>
 
-        </div>
-
-
-
-        <div class="card">
-
-        <h3>💪 Workouts Completed</h3>
-
-        <p>${userData.workoutsCompleted}</p>
 
         </div>
+
 
 
         `;
+
 
     }
 
@@ -228,39 +284,39 @@ function showPage(page) {
 
 
 
+
     // TRAINING
+
 
     if (page === "training") {
 
 
         const days = [
 
-            "Sunday",
+        "Sunday",
 
-            "Monday",
+        "Monday",
 
-            "Tuesday",
+        "Tuesday",
 
-            "Wednesday",
+        "Wednesday",
 
-            "Thursday",
+        "Thursday",
 
-            "Friday",
+        "Friday",
 
-            "Saturday"
+        "Saturday"
 
         ];
+
 
 
         const today = days[new Date().getDay()];
 
 
-        let workout;
-
-
-
 
         if (userData.mode === "Vacation") {
+
 
 
             content = `
@@ -276,6 +332,7 @@ function showPage(page) {
 
 
             <p>
+
 
             <button onclick="completeWorkout('${item}')">
 
@@ -308,17 +365,17 @@ function showPage(page) {
 
 
 
-            workout = dailyWorkouts[today];
+            const workout = dailyWorkouts[today];
 
 
 
             content = `
 
 
-            <h1>💪 Training</h1>
+            <h1>💪 Today's Workout</h1>
 
 
-            <h2>Today's Workout: ${today}</h2>
+            <h2>${today}</h2>
 
 
 
@@ -326,6 +383,7 @@ function showPage(page) {
 
 
             <h3>🌅 Morning</h3>
+
 
 
             ${workout.morning.map(item => `
@@ -343,6 +401,7 @@ function showPage(page) {
 
             </button>
 
+
             </p>
 
 
@@ -350,7 +409,6 @@ function showPage(page) {
 
 
             </div>
-
 
 
 
@@ -375,6 +433,7 @@ function showPage(page) {
 
             <p>
 
+
             <button onclick="completeWorkout('${item}')">
 
 
@@ -397,67 +456,8 @@ function showPage(page) {
 
             `;
 
+
         }
-
-
-    }
-
-
-
-
-
-
-
-
-    // BADGES
-
-    if (page === "badges") {
-
-
-        content = `
-
-
-        <h1>🏅 Badge Gallery</h1>
-
-
-        <div class="badge-gallery">
-
-
-        ${Object.keys(badges).map(badge => {
-
-
-            const unlocked = userData.unlockedBadges.includes(badge);
-
-
-
-            return `
-
-
-            <div class="badge-card ${unlocked ? "unlocked" : "locked"}">
-
-
-            <h2>${unlocked ? badges[badge].icon : "🔒"}</h2>
-
-
-            <h3>${badges[badge].name}</h3>
-
-
-            <p>${badges[badge].description}</p>
-
-
-            </div>
-
-
-            `;
-
-
-        }).join("")}
-
-
-        </div>
-
-
-        `;
 
 
     }
@@ -471,37 +471,179 @@ function showPage(page) {
 
     // PROFILE
 
+
     if (page === "profile") {
+
+
+        if (!userData.profileCreated) {
+
+
+
+            content = `
+
+
+            <h1>👤 Create Your Profile</h1>
+
+
+
+            <div class="card">
+
+
+            <p>Name</p>
+
+
+            <input id="profileName" placeholder="Your name">
+
+
+
+            <p>Athlete Type</p>
+
+
+            <select id="athleteType">
+
+
+            <option>Cheer Athlete</option>
+
+            <option>Strength Athlete</option>
+
+            <option>Flexibility Athlete</option>
+
+
+            </select>
+
+
+
+            <p>Main Goal</p>
+
+
+            <input id="goal" placeholder="Your goal">
+
+
+
+            <br><br>
+
+
+
+            <button onclick="createProfile()">
+
+            Save Profile
+
+            </button>
+
+
+
+            </div>
+
+
+            `;
+
+
+        }
+
+
+        else {
+
+
+
+            content = `
+
+
+            <h1>👤 Profile</h1>
+
+
+
+            <div class="card">
+
+
+            <h2>${userData.profileName}</h2>
+
+
+            <p>🤸 ${userData.athleteType}</p>
+
+
+            <p>🎯 Goal: ${userData.goal}</p>
+
+
+            <p>📅 Joined: ${userData.profileDate}</p>
+
+
+            </div>
+
+
+
+
+
+            <div class="card">
+
+
+            <p>⭐ Level: ${userData.level}</p>
+
+
+            <p>XP: ${userData.xp}</p>
+
+
+            <p>🔥 Streak: ${userData.streak}</p>
+
+
+            <p>💪 Workouts: ${userData.workoutsCompleted}</p>
+
+
+            </div>
+
+
+            `;
+
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+    // BADGES
+
+
+    if (page === "badges") {
 
 
         content = `
 
 
-        <h1>👤 Profile</h1>
+        <h1>🏅 Badge Gallery</h1>
 
 
-        <div class="card">
+
+        <div class="badge-gallery">
 
 
-        <p>⭐ Level: ${userData.level}</p>
-
-        <p>XP: ${userData.xp}/${userData.xpToNextLevel}</p>
-
-        <p>🔥 Streak: ${userData.streak}</p>
-
-        <p>💪 Total Workouts: ${userData.workoutsCompleted}</p>
+        ${Object.keys(badges).map(badge => `
 
 
-        <hr>
+
+        <div class="badge-card">
 
 
-        <p>🔥 Core: ${userData.coreWorkouts || 0}</p>
+        <h2>${badges[badge].icon}</h2>
 
-        <p>💪 Strength: ${userData.strengthWorkouts || 0}</p>
 
-        <p>🤸 Flexibility: ${userData.flexibilitySessions || 0}</p>
+        <h3>${badges[badge].name}</h3>
 
-        <p>🏋️ Backspot: ${userData.backspotWorkouts || 0}</p>
+
+        <p>${badges[badge].description}</p>
+
+
+        </div>
+
+
+
+        `).join("")}
 
 
         </div>
@@ -521,6 +663,7 @@ function showPage(page) {
 
     // SETTINGS
 
+
     if (page === "settings") {
 
 
@@ -538,35 +681,27 @@ function showPage(page) {
 
 
 
-        <button class="mode-button" onclick="changeMode('Regular')">
+        <button onclick="changeMode('Regular')">
 
-        💖 Regular Mode
-
-        </button>
-
-
-
-        <button class="mode-button" onclick="changeMode('Vacation')">
-
-        🤍 Vacation Mode
+        💖 Regular
 
         </button>
 
 
 
-        <button class="mode-button" onclick="changeMode('Period')">
+        <button onclick="changeMode('Vacation')">
 
-        ❤️ Period Mode
+        🤍 Vacation
 
         </button>
 
 
 
-        <p>
+        <button onclick="changeMode('Period')">
 
-        Current Mode: ${userData.mode}
+        ❤️ Period
 
-        </p>
+        </button>
 
 
         </div>
@@ -575,11 +710,10 @@ function showPage(page) {
 
 
 
-
         <div class="card">
 
 
-        <h3>🥗 Nutrition Support</h3>
+        <h3>🥗 Nutrition</h3>
 
 
         <label>
@@ -605,12 +739,7 @@ function showPage(page) {
 
 
 
-
-
         <div class="card">
-
-
-        <h3>💾 Data</h3>
 
 
         <button onclick="resetProgress()">
@@ -634,50 +763,26 @@ function showPage(page) {
 
 
 
+
     app.innerHTML = content + `
 
 
     <div class="bottom-nav">
 
 
-    <button onclick="showPage('home')">
-
-    🏠<br>Home
-
-    </button>
+    <button onclick="showPage('home')">🏠</button>
 
 
-
-    <button onclick="showPage('training')">
-
-    💪<br>Training
-
-    </button>
+    <button onclick="showPage('training')">💪</button>
 
 
-
-    <button onclick="showPage('badges')">
-
-    🏅<br>Badges
-
-    </button>
+    <button onclick="showPage('badges')">🏅</button>
 
 
-
-    <button onclick="showPage('profile')">
-
-    👤<br>Profile
-
-    </button>
+    <button onclick="showPage('profile')">👤</button>
 
 
-
-    <button onclick="showPage('settings')">
-
-    ⚙️<br>Settings
-
-    </button>
-
+    <button onclick="showPage('settings')">⚙️</button>
 
 
     </div>
@@ -685,12 +790,13 @@ function showPage(page) {
 
     `;
 
+
 }
 
 
 
 
-applyTheme();
 
+applyTheme();
 
 showPage("home");
