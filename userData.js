@@ -1,6 +1,8 @@
 let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
+    // =====================
     // PROFILE
+    // =====================
 
     profileCreated: false,
 
@@ -13,14 +15,20 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
     profileDate: "",
 
 
+
+    // =====================
     // SETTINGS
+    // =====================
 
     mode: "Regular",
 
     arfidSupport: false,
 
 
+
+    // =====================
     // PROGRESS
+    // =====================
 
     xp: 0,
 
@@ -34,14 +42,22 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
     workoutsCompleted: 0,
 
 
-    completedWorkouts: [],
+    // TODAY'S CHECKBOXES
 
+    completedToday: [],
+
+
+
+    // BADGES
 
     unlockedBadges: [],
 
 
 
+
+    // =====================
     // WORKOUT CATEGORIES
+    // =====================
 
     coreWorkouts: 0,
 
@@ -62,9 +78,10 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
-// SAVE FUNCTION
+
 
 function saveUserData() {
+
 
     localStorage.setItem(
 
@@ -74,14 +91,14 @@ function saveUserData() {
 
     );
 
+
 }
 
 
 
 
 
-// RESET ONLY STATS
-// KEEPS PROFILE + SETTINGS
+
 
 function resetProgress() {
 
@@ -93,8 +110,12 @@ function resetProgress() {
     );
 
 
+
     if (confirmReset) {
 
+
+
+        // Progress only
 
         userData.xp = 0;
 
@@ -109,12 +130,15 @@ function resetProgress() {
         userData.workoutsCompleted = 0;
 
 
-        userData.completedWorkouts = [];
+        userData.completedToday = [];
+
 
 
         userData.unlockedBadges = [];
 
 
+
+        // Workout categories
 
         userData.coreWorkouts = 0;
 
@@ -135,9 +159,11 @@ function resetProgress() {
         saveUserData();
 
 
+
         location.reload();
 
 
     }
+
 
 }
