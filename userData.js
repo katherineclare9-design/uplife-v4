@@ -1,7 +1,9 @@
 let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
+    // =====================
     // PROFILE
+    // =====================
 
     profileCreated: false,
 
@@ -15,7 +17,9 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
+    // =====================
     // SETTINGS
+    // =====================
 
     mode: "Regular",
 
@@ -23,14 +27,15 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
+    // =====================
     // PROGRESS
+    // =====================
 
     xp: 0,
 
     level: 1,
 
     xpToNextLevel: 100,
-
 
     streak: 0,
 
@@ -45,7 +50,9 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
-    // CATEGORIES
+    // =====================
+    // WORKOUT CATEGORIES
+    // =====================
 
     coreWorkouts: 0,
 
@@ -68,7 +75,9 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
+
 function saveUserData() {
+
 
     localStorage.setItem(
 
@@ -78,10 +87,19 @@ function saveUserData() {
 
     );
 
+
 }
 
 
 
+
+
+
+
+// =====================
+// RESET ONLY PROGRESS
+// KEEPS PROFILE + SETTINGS
+// =====================
 
 
 function resetProgress() {
@@ -94,13 +112,67 @@ function resetProgress() {
     );
 
 
+
     if (confirmReset) {
 
 
-        localStorage.removeItem("upliftData");
+
+        // XP + LEVEL
+
+        userData.xp = 0;
+
+        userData.level = 1;
+
+        userData.xpToNextLevel = 100;
+
+
+
+        // STREAK
+
+        userData.streak = 0;
+
+
+
+        // WORKOUT HISTORY
+
+        userData.workoutsCompleted = 0;
+
+
+        userData.completedWorkouts = [];
+
+
+
+        // BADGES
+
+        userData.unlockedBadges = [];
+
+
+
+        // CATEGORY STATS
+
+        userData.coreWorkouts = 0;
+
+        userData.strengthWorkouts = 0;
+
+        userData.backspotWorkouts = 0;
+
+        userData.flexibilitySessions = 0;
+
+        userData.lowerBodyWorkouts = 0;
+
+        userData.upperBodyWorkouts = 0;
+
+        userData.jumpSessions = 0;
+
+
+
+
+        saveUserData();
+
 
 
         location.reload();
+
 
 
     }
