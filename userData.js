@@ -1,8 +1,6 @@
 let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
-    // =====================
-    // PROFILE
-    // =====================
+    // PROFILE (NEVER RESET)
 
     profileCreated: false,
 
@@ -16,9 +14,7 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
-    // =====================
-    // SETTINGS
-    // =====================
+    // SETTINGS (NEVER RESET)
 
     mode: "Regular",
 
@@ -26,9 +22,7 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
-    // =====================
     // PROGRESS
-    // =====================
 
     xp: 0,
 
@@ -42,7 +36,7 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
     workoutsCompleted: 0,
 
 
-    // TODAY'S CHECKBOXES
+    // DAILY CHECKBOXES
 
     completedToday: [],
 
@@ -54,10 +48,7 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
-
-    // =====================
-    // WORKOUT CATEGORIES
-    // =====================
+    // CATEGORIES
 
     coreWorkouts: 0,
 
@@ -79,9 +70,7 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
-
 function saveUserData() {
-
 
     localStorage.setItem(
 
@@ -91,9 +80,7 @@ function saveUserData() {
 
     );
 
-
 }
-
 
 
 
@@ -103,67 +90,58 @@ function saveUserData() {
 function resetProgress() {
 
 
-    const confirmReset = confirm(
+    let confirmReset = confirm(
 
         "Resetting your progress will erase any and all completed workouts or recent badge history"
 
     );
 
 
-
-    if (confirmReset) {
-
-
-
-        // Progress only
-
-        userData.xp = 0;
-
-        userData.level = 1;
-
-        userData.xpToNextLevel = 100;
-
-
-        userData.streak = 0;
-
-
-        userData.workoutsCompleted = 0;
-
-
-        userData.completedToday = [];
+    if (!confirmReset) return;
 
 
 
-        userData.unlockedBadges = [];
+    // ONLY RESET PROGRESS
+
+
+    userData.xp = 0;
+
+    userData.level = 1;
+
+    userData.xpToNextLevel = 100;
+
+    userData.streak = 0;
+
+
+    userData.workoutsCompleted = 0;
+
+
+    userData.completedToday = [];
+
+
+    userData.unlockedBadges = [];
 
 
 
-        // Workout categories
+    userData.coreWorkouts = 0;
 
-        userData.coreWorkouts = 0;
+    userData.strengthWorkouts = 0;
 
-        userData.strengthWorkouts = 0;
+    userData.backspotWorkouts = 0;
 
-        userData.backspotWorkouts = 0;
+    userData.flexibilitySessions = 0;
 
-        userData.flexibilitySessions = 0;
+    userData.lowerBodyWorkouts = 0;
 
-        userData.lowerBodyWorkouts = 0;
+    userData.upperBodyWorkouts = 0;
 
-        userData.upperBodyWorkouts = 0;
-
-        userData.jumpSessions = 0;
+    userData.jumpSessions = 0;
 
 
 
-        saveUserData();
+    saveUserData();
 
 
-
-        location.reload();
-
-
-    }
-
+    location.reload();
 
 }
