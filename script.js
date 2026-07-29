@@ -33,28 +33,27 @@ function toggleARFID() {
 
 
 
-
 function applyTheme() {
 
 
     document.body.className = "";
 
 
-    if (userData.mode === "Regular") {
+    if(userData.mode === "Regular") {
 
         document.body.classList.add("regular-theme");
 
     }
 
 
-    if (userData.mode === "Vacation") {
+    if(userData.mode === "Vacation") {
 
         document.body.classList.add("vacation-theme");
 
     }
 
 
-    if (userData.mode === "Period") {
+    if(userData.mode === "Period") {
 
         document.body.classList.add("period-theme");
 
@@ -71,29 +70,27 @@ function applyTheme() {
 // =====================
 
 
-function createProfile() {
+function createProfile(){
 
 
     userData.profileName =
-        document.getElementById("profileName").value;
+    document.getElementById("profileName").value;
 
 
     userData.athleteType =
-        document.getElementById("athleteType").value;
+    document.getElementById("athleteType").value;
 
 
     userData.goal =
-        document.getElementById("goal").value;
+    document.getElementById("goal").value;
 
 
 
     userData.profileDate =
-        new Date().toLocaleDateString();
-
+    new Date().toLocaleDateString();
 
 
     userData.profileCreated = true;
-
 
 
     saveUserData();
@@ -104,10 +101,40 @@ function createProfile() {
 
     showPage("profile");
 
-
 }
 
 
+
+
+
+// =====================
+// XP SYSTEM
+// =====================
+
+
+function addXP(amount){
+
+
+    userData.xp += amount;
+
+
+
+    while(userData.xp >= userData.xpToNextLevel){
+
+
+        userData.xp -= userData.xpToNextLevel;
+
+
+        userData.level++;
+
+
+        userData.xpToNextLevel += 100;
+
+
+    }
+
+
+}
 
 
 
@@ -118,10 +145,11 @@ function createProfile() {
 // =====================
 
 
-function completeWorkout(workoutName) {
+function completeWorkout(workoutName){
 
 
-    if (userData.completedToday.includes(workoutName)) {
+
+    if(userData.completedToday.includes(workoutName)){
 
         return;
 
@@ -137,73 +165,43 @@ function completeWorkout(workoutName) {
 
 
 
-    const workout = workoutTypes[workoutName];
+    let workout = workoutTypes[workoutName];
 
 
 
-    if (workout) {
+    if(workout){
 
 
-        addXP(workout.xp || 10);
+        addXP(workout.xp);
 
 
 
-        if (workout.category === "core") {
-
+        if(workout.category === "core")
             userData.coreWorkouts++;
 
-        }
 
-
-        if (workout.category === "strength") {
-
+        if(workout.category === "strength")
             userData.strengthWorkouts++;
 
-        }
 
-
-        if (workout.category === "backspot") {
-
+        if(workout.category === "backspot")
             userData.backspotWorkouts++;
 
-        }
 
-
-        if (workout.category === "flexibility") {
-
+        if(workout.category === "flexibility")
             userData.flexibilitySessions++;
 
-        }
 
-
-        if (workout.category === "lowerBody") {
-
+        if(workout.category === "lowerBody")
             userData.lowerBodyWorkouts++;
 
-        }
 
-
-        if (workout.category === "upperBody") {
-
+        if(workout.category === "upperBody")
             userData.upperBodyWorkouts++;
 
-        }
 
-
-        if (workout.category === "jump") {
-
+        if(workout.category === "jump")
             userData.jumpSessions++;
-
-        }
-
-
-    }
-
-
-    else {
-
-
-        addXP(10);
 
 
     }
@@ -214,6 +212,7 @@ function completeWorkout(workoutName) {
 
 
     saveUserData();
+
 
 
     showPage("training");
@@ -231,16 +230,17 @@ function completeWorkout(workoutName) {
 // =====================
 
 
-function showPage(page) {
+function showPage(page){
 
 
 let content = "";
 
 
 
+
 // HOME
 
-if (page === "home") {
+if(page === "home"){
 
 
 content = `
@@ -251,51 +251,36 @@ content = `
 
 <div class="card">
 
-
 <h3>⭐ Level ${userData.level}</h3>
 
-
 <p>${userData.xp}/${userData.xpToNextLevel} XP</p>
-
 
 </div>
 
 
 <div class="card">
 
-
 <h3>🔥 Streak</h3>
 
-
 <p>${userData.streak} Days</p>
-
 
 </div>
 
 
 `;
 
-
 }
-    // TRAINING
-
-if (page === "training") {
+    if(page === "training"){
 
 
 const days = [
 
 "Sunday",
-
 "Monday",
-
 "Tuesday",
-
 "Wednesday",
-
 "Thursday",
-
 "Friday",
-
 "Saturday"
 
 ];
@@ -305,9 +290,13 @@ const today = days[new Date().getDay()];
 
 
 
+let workout;
 
 
-if (userData.mode === "Vacation") {
+
+// VACATION MODE
+
+if(userData.mode === "Vacation"){
 
 
 content = `
@@ -357,11 +346,12 @@ ${item}
 
 
 
-else {
+// REGULAR + PERIOD MODE
+
+else{
 
 
-
-const workout = dailyWorkouts[today];
+workout = dailyWorkouts[today];
 
 
 
@@ -369,7 +359,6 @@ content = `
 
 
 <h1>💪 Today's Workout</h1>
-
 
 <h2>${today}</h2>
 
@@ -416,6 +405,7 @@ ${item}
 
 
 
+
 <div class="card">
 
 
@@ -426,7 +416,6 @@ ${item}
 ${userData.mode === "Period" ? "(Optional)" : ""}
 
 </h3>
-
 
 
 
@@ -460,15 +449,13 @@ ${item}
 </div>
 
 
+
 `;
 
-
-
 }
 
 
 }
-
 
 
 
@@ -477,27 +464,26 @@ ${item}
 
 // PROFILE
 
-if (page === "profile") {
+if(page === "profile"){
 
 
-if (!userData.profileCreated) {
+
+if(!userData.profileCreated){
 
 
 content = `
 
 
-<h1>👤 Create Your Profile</h1>
+<h1>👤 Create Profile</h1>
 
 
 <div class="card">
 
 
-<p>Name</p>
-
-<input id="profileName">
+<input id="profileName" placeholder="Name">
 
 
-<p>Athlete Type</p>
+<br><br>
 
 
 <select id="athleteType">
@@ -511,11 +497,10 @@ content = `
 </select>
 
 
+<br><br>
 
-<p>Main Goal</p>
 
-<input id="goal">
-
+<input id="goal" placeholder="Goal">
 
 
 <br><br>
@@ -538,9 +523,7 @@ Save Profile
 }
 
 
-
-else {
-
+else{
 
 
 content = `
@@ -587,19 +570,15 @@ content = `
 
 <p>🩰 Flexibility: ${userData.flexibilitySessions}</p>
 
-<p>⭐ Jumps: ${userData.jumpSessions}</p>
-
 
 <hr>
 
 
-<p>⭐ Level: ${userData.level}</p>
+<p>⭐ Level ${userData.level}</p>
 
-<p>XP: ${userData.xp}</p>
+<p>XP ${userData.xp}</p>
 
-<p>🔥 Streak: ${userData.streak}</p>
-
-<p>💪 Total Workouts: ${userData.workoutsCompleted}</p>
+<p>💪 Total Workouts ${userData.workoutsCompleted}</p>
 
 
 </div>
@@ -607,12 +586,10 @@ content = `
 
 `;
 
-
 }
 
 
 }
-
 
 
 
@@ -621,13 +598,13 @@ content = `
 
 // BADGES
 
-if (page === "badges") {
+if(page === "badges"){
 
 
 content = `
 
 
-<h1>🏅 Badge Gallery</h1>
+<h1>🏅 Badges</h1>
 
 
 <div class="badge-gallery">
@@ -641,9 +618,7 @@ ${Object.keys(badges).map(badge => `
 
 <h2>${badges[badge].icon}</h2>
 
-
 <h3>${badges[badge].name}</h3>
-
 
 <p>${badges[badge].description}</p>
 
@@ -652,6 +627,7 @@ ${Object.keys(badges).map(badge => `
 
 
 `).join("")}
+
 
 
 </div>
@@ -668,10 +644,9 @@ ${Object.keys(badges).map(badge => `
 
 
 
-
 // SETTINGS
 
-if (page === "settings") {
+if(page === "settings"){
 
 
 content = `
@@ -714,13 +689,14 @@ content = `
 
 
 
+
 <div class="card">
 
 
 <h3>🥗 Nutrition</h3>
 
 
-<label>
+<label class="arfid-toggle">
 
 
 <input type="checkbox"
@@ -731,13 +707,19 @@ onclick="toggleARFID()">
 
 
 
+<span>
+
 ARFID Support Feature
+
+</span>
 
 
 </label>
 
 
 </div>
+
+
 
 
 
@@ -754,6 +736,7 @@ Reset Progress
 
 
 </div>
+
 
 
 `;
@@ -773,19 +756,40 @@ app.innerHTML = content + `
 <div class="bottom-nav">
 
 
-<button onclick="showPage('home')">🏠</button>
+<button onclick="showPage('home')">
+
+🏠
+
+</button>
 
 
-<button onclick="showPage('training')">💪</button>
+<button onclick="showPage('training')">
+
+💪
+
+</button>
 
 
-<button onclick="showPage('badges')">🏅</button>
+<button onclick="showPage('badges')">
+
+🏅
+
+</button>
 
 
-<button onclick="showPage('profile')">👤</button>
+<button onclick="showPage('profile')">
+
+👤
+
+</button>
 
 
-<button onclick="showPage('settings')">⚙️</button>
+<button onclick="showPage('settings')">
+
+⚙️
+
+</button>
+
 
 
 </div>
@@ -796,6 +800,8 @@ app.innerHTML = content + `
 
 
 }
+
+
 
 
 
