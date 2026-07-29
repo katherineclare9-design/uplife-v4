@@ -1,0 +1,311 @@
+/* UpLift Main Styles */
+
+
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+    font-family: Arial, sans-serif;
+
+    transition: background 0.4s ease, color 0.4s ease;
+
+}
+
+
+
+#app {
+
+    padding: 20px;
+
+    padding-bottom: 90px;
+
+}
+
+
+
+
+
+h1 {
+
+    text-align: center;
+
+}
+
+
+
+h2 {
+
+    text-align: center;
+
+}
+
+
+
+
+
+.card {
+
+    background: white;
+
+    padding: 20px;
+
+    margin: 15px 0;
+
+    border-radius: 20px;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+}
+
+
+
+
+
+button {
+
+    padding: 12px 18px;
+
+    border-radius: 15px;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+}
+
+
+
+
+
+.bottom-nav {
+
+    position: fixed;
+
+    bottom: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-around;
+
+    padding: 10px 0;
+
+    background: white;
+
+    box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
+
+}
+
+
+
+
+
+.bottom-nav button {
+
+    background: transparent;
+
+    font-size: 14px;
+
+}
+
+
+
+
+
+/* BADGE GALLERY */
+
+
+.badge-gallery {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+}
+
+
+
+
+
+.badge-card {
+
+    padding: 20px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+}
+
+
+
+
+
+.badge-card.locked {
+
+    opacity: 0.5;
+
+    background: #eeeeee;
+
+}
+
+
+
+
+
+.badge-card.unlocked {
+
+    background: #ffe6a8;
+
+}
+
+
+
+
+
+/* ========================= */
+/* APP THEMES */
+/* ========================= */
+
+
+
+
+
+/* Regular Mode */
+
+
+body.regular-theme {
+
+    background: #ffe6f2;
+
+    color: black;
+
+}
+
+
+
+body.regular-theme button {
+
+    background: white;
+
+    color: black;
+
+}
+
+
+
+
+
+/* Vacation Mode */
+
+
+body.vacation-theme {
+
+    background: white;
+
+    color: black;
+
+}
+
+
+
+body.vacation-theme .card {
+
+    background: #fffdf9;
+
+    color: black;
+
+}
+
+
+
+body.vacation-theme button {
+
+    background: #f8f5ef;
+
+    color: black;
+
+    border: 1px solid #ddd;
+
+}
+
+
+
+
+
+/* Period Mode */
+
+
+body.period-theme {
+
+    background: #b00020;
+
+    color: white;
+
+}
+
+
+
+body.period-theme .card {
+
+    background: #8b0018;
+
+    color: white;
+
+}
+
+
+
+body.period-theme button {
+
+    background: #5a0010;
+
+    color: white;
+
+}
+
+
+
+
+
+/* Settings Buttons */
+
+
+.mode-button {
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin: 8px 0;
+
+    border-radius: 15px;
+
+    border: none;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.checkbox-setting {
+
+    margin-top: 15px;
+
+    font-size: 17px;
+
+}
