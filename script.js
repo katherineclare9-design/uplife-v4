@@ -33,6 +33,7 @@ function toggleARFID() {
 
 
 
+
 function applyTheme() {
 
 
@@ -120,8 +121,6 @@ function createProfile() {
 function completeWorkout(workoutName) {
 
 
-    // Stops double clicking
-
     if (userData.completedToday.includes(workoutName)) {
 
         return;
@@ -130,19 +129,13 @@ function completeWorkout(workoutName) {
 
 
 
-    // Save checkbox
-
     userData.completedToday.push(workoutName);
 
 
 
-    // Lifetime count
-
     userData.workoutsCompleted++;
 
 
-
-    // Find workout info
 
     const workout = workoutTypes[workoutName];
 
@@ -206,16 +199,14 @@ function completeWorkout(workoutName) {
 
     }
 
+
     else {
 
-
-        // Backup XP if workout type is missing
 
         addXP(10);
 
 
     }
-
 
 
 
@@ -225,13 +216,10 @@ function completeWorkout(workoutName) {
     saveUserData();
 
 
-
     showPage("training");
 
 
 }
-
-
 
 
 
@@ -250,8 +238,6 @@ let content = "";
 
 
 
-
-
 // HOME
 
 if (page === "home") {
@@ -265,19 +251,24 @@ content = `
 
 <div class="card">
 
+
 <h3>⭐ Level ${userData.level}</h3>
 
+
 <p>${userData.xp}/${userData.xpToNextLevel} XP</p>
+
 
 </div>
 
 
-
 <div class="card">
+
 
 <h3>🔥 Streak</h3>
 
+
 <p>${userData.streak} Days</p>
+
 
 </div>
 
@@ -286,13 +277,7 @@ content = `
 
 
 }
-
-
-
-
-
-
-// TRAINING
+    // TRAINING
 
 if (page === "training") {
 
@@ -340,15 +325,21 @@ ${vacationWorkouts.workout.map(item => `
 <button class="workout-button" onclick="completeWorkout('${item}')">
 
 
-${userData.completedToday.includes(item) ? "✅" : "☐"}
+<span class="check-box">
+
+${userData.completedToday.includes(item) ? "✅" : "⬜"}
+
+</span>
+
+
+<span class="workout-name">
 
 ${item}
 
+</span>
+
 
 </button>
-
-
-<br><br>
 
 
 `).join("")}
@@ -379,7 +370,9 @@ content = `
 
 <h1>💪 Today's Workout</h1>
 
+
 <h2>${today}</h2>
+
 
 
 
@@ -396,18 +389,25 @@ ${workout.morning.map(item => `
 <button class="workout-button" onclick="completeWorkout('${item}')">
 
 
-${userData.completedToday.includes(item) ? "✅" : "☐"}
+<span class="check-box">
+
+${userData.completedToday.includes(item) ? "✅" : "⬜"}
+
+</span>
+
+
+<span class="workout-name">
 
 ${item}
+
+</span>
 
 
 </button>
 
 
-<br><br>
-
-
 `).join("")}
+
 
 
 </div>
@@ -425,8 +425,8 @@ ${item}
 
 ${userData.mode === "Period" ? "(Optional)" : ""}
 
-
 </h3>
+
 
 
 
@@ -435,11 +435,13 @@ ${workout.nighttime.map(item => `
 
 <button class="workout-button" onclick="completeWorkout('${item}')">
 
+
 <span class="check-box">
 
 ${userData.completedToday.includes(item) ? "✅" : "⬜"}
 
 </span>
+
 
 <span class="workout-name">
 
@@ -447,10 +449,8 @@ ${item}
 
 </span>
 
+
 </button>
-
-
-<br><br>
 
 
 `).join("")}
@@ -468,7 +468,6 @@ ${item}
 
 
 }
-
 
 
 
@@ -642,7 +641,9 @@ ${Object.keys(badges).map(badge => `
 
 <h2>${badges[badge].icon}</h2>
 
+
 <h3>${badges[badge].name}</h3>
+
 
 <p>${badges[badge].description}</p>
 
@@ -668,7 +669,6 @@ ${Object.keys(badges).map(badge => `
 
 
 
-
 // SETTINGS
 
 if (page === "settings") {
@@ -687,16 +687,29 @@ content = `
 <h3>🌈 App Mode</h3>
 
 
-<button onclick="changeMode('Regular')">💖 Regular</button>
+<button onclick="changeMode('Regular')">
+
+💖 Regular
+
+</button>
 
 
-<button onclick="changeMode('Vacation')">🤍 Vacation</button>
+<button onclick="changeMode('Vacation')">
+
+🤍 Vacation
+
+</button>
 
 
-<button onclick="changeMode('Period')">❤️ Period</button>
+<button onclick="changeMode('Period')">
+
+❤️ Period
+
+</button>
 
 
 </div>
+
 
 
 
@@ -729,6 +742,7 @@ ARFID Support Feature
 
 
 
+
 <div class="card">
 
 
@@ -753,8 +767,6 @@ Reset Progress
 
 
 
-
-
 app.innerHTML = content + `
 
 
@@ -763,11 +775,15 @@ app.innerHTML = content + `
 
 <button onclick="showPage('home')">🏠</button>
 
+
 <button onclick="showPage('training')">💪</button>
+
 
 <button onclick="showPage('badges')">🏅</button>
 
+
 <button onclick="showPage('profile')">👤</button>
+
 
 <button onclick="showPage('settings')">⚙️</button>
 
@@ -780,7 +796,6 @@ app.innerHTML = content + `
 
 
 }
-
 
 
 
