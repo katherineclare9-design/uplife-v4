@@ -65,9 +65,8 @@ function applyTheme() {
 
 
 
-
 // =====================
-// PROFILE CREATION
+// PROFILE
 // =====================
 
 
@@ -99,16 +98,13 @@ function createProfile() {
     saveUserData();
 
 
-
     checkBadges();
-
 
 
     showPage("profile");
 
 
 }
-
 
 
 
@@ -124,87 +120,109 @@ function createProfile() {
 function completeWorkout(workoutName) {
 
 
-    if (!userData.completedWorkouts.includes(workoutName)) {
+    // Stops double clicking
 
+    if (userData.completedToday.includes(workoutName)) {
 
-        userData.completedWorkouts.push(workoutName);
+        return;
 
-
-
-        const workout = workoutTypes[workoutName];
-
-
-
-        if (workout) {
-
-
-            addXP(workout.xp);
+    }
 
 
 
-            if (workout.category === "core") {
+    // Save checkbox
 
-                userData.coreWorkouts++;
-
-            }
+    userData.completedToday.push(workoutName);
 
 
-            if (workout.category === "strength") {
 
-                userData.strengthWorkouts++;
+    // Lifetime count
 
-            }
-
-
-            if (workout.category === "backspot") {
-
-                userData.backspotWorkouts++;
-
-            }
+    userData.workoutsCompleted++;
 
 
-            if (workout.category === "flexibility") {
 
-                userData.flexibilitySessions++;
+    // Find workout info
 
-            }
-
-
-            if (workout.category === "lowerBody") {
-
-                userData.lowerBodyWorkouts++;
-
-            }
+    const workout = workoutTypes[workoutName];
 
 
-            if (workout.category === "upperBody") {
 
-                userData.upperBodyWorkouts++;
-
-            }
+    if (workout) {
 
 
-            if (workout.category === "jump") {
+        addXP(workout.xp || 10);
 
-                userData.jumpSessions++;
 
-            }
 
+        if (workout.category === "core") {
+
+            userData.coreWorkouts++;
 
         }
 
 
+        if (workout.category === "strength") {
 
-        userData.workoutsCompleted++;
+            userData.strengthWorkouts++;
+
+        }
 
 
-        checkBadges();
+        if (workout.category === "backspot") {
+
+            userData.backspotWorkouts++;
+
+        }
 
 
-        saveUserData();
+        if (workout.category === "flexibility") {
+
+            userData.flexibilitySessions++;
+
+        }
+
+
+        if (workout.category === "lowerBody") {
+
+            userData.lowerBodyWorkouts++;
+
+        }
+
+
+        if (workout.category === "upperBody") {
+
+            userData.upperBodyWorkouts++;
+
+        }
+
+
+        if (workout.category === "jump") {
+
+            userData.jumpSessions++;
+
+        }
 
 
     }
+
+    else {
+
+
+        // Backup XP if workout type is missing
+
+        addXP(10);
+
+
+    }
+
+
+
+
+    checkBadges();
+
+
+    saveUserData();
 
 
 
@@ -212,6 +230,7 @@ function completeWorkout(workoutName) {
 
 
 }
+
 
 
 
@@ -227,572 +246,534 @@ function completeWorkout(workoutName) {
 function showPage(page) {
 
 
-    let content = "";
+let content = "";
 
 
 
 
 
+// HOME
 
-    // HOME
+if (page === "home") {
 
 
-    if (page === "home") {
+content = `
 
 
-        content = `
+<h1>💖 FULL OUT</h1>
 
 
-        <h1>💖 FULL OUT</h1>
+<div class="card">
 
+<h3>⭐ Level ${userData.level}</h3>
 
-        <div class="card">
+<p>${userData.xp}/${userData.xpToNextLevel} XP</p>
 
+</div>
 
-        <h3>⭐ Level ${userData.level}</h3>
 
 
-        <p>${userData.xp}/${userData.xpToNextLevel} XP</p>
+<div class="card">
 
+<h3>🔥 Streak</h3>
 
-        </div>
+<p>${userData.streak} Days</p>
 
+</div>
 
 
-        <div class="card">
-
-
-        <h3>🔥 Streak</h3>
-
-
-        <p>${userData.streak} Days</p>
-
-
-        </div>
-
-
-
-        `;
-
-
-    }
-
-
-
-
-
-
-
-
-
-    // TRAINING
-
-
-    if (page === "training") {
-
-
-        const days = [
-
-        "Sunday",
-
-        "Monday",
-
-        "Tuesday",
-
-        "Wednesday",
-
-        "Thursday",
-
-        "Friday",
-
-        "Saturday"
-
-        ];
-
-
-
-        const today = days[new Date().getDay()];
-
-
-
-        if (userData.mode === "Vacation") {
-
-
-
-            content = `
-
-
-            <h1>🤍 Vacation Workout</h1>
-
-
-            <div class="card">
-
-
-            ${vacationWorkouts.workout.map(item => `
-
-
-            <p>
-
-
-            <button onclick="completeWorkout('${item}')">
-
-
-            ${userData.completedWorkouts.includes(item) ? "✅" : "☐"}
-
-            ${item}
-
-
-            </button>
-
-
-            </p>
-
-
-            `).join("")}
-
-
-            </div>
-
-
-            `;
-
-
-        }
-
-
-
-        else {
-
-
-
-            const workout = dailyWorkouts[today];
-
-
-
-            content = `
-
-
-            <h1>💪 Today's Workout</h1>
-
-
-            <h2>${today}</h2>
-
-
-
-            <div class="card">
-
-
-            <h3>🌅 Morning</h3>
-
-
-
-            ${workout.morning.map(item => `
-
-
-            <p>
-
-            <button onclick="completeWorkout('${item}')">
-
-
-            ${userData.completedWorkouts.includes(item) ? "✅" : "☐"}
-
-            ${item}
-
-
-            </button>
-
-
-            </p>
-
-
-            `).join("")}
-
-
-            </div>
-
-
-
-
-
-            <div class="card">
-
-
-            <h3>
-
-            🌙 Nighttime
-
-            ${userData.mode === "Period" ? "(Optional)" : ""}
-
-
-            </h3>
-
-
-
-            ${workout.nighttime.map(item => `
-
-
-            <p>
-
-
-            <button onclick="completeWorkout('${item}')">
-
-
-            ${userData.completedWorkouts.includes(item) ? "✅" : "☐"}
-
-            ${item}
-
-
-            </button>
-
-
-            </p>
-
-
-            `).join("")}
-
-
-            </div>
-
-
-            `;
-
-
-        }
-
-
-    }
-
-
-
-
-
-
-
-
-    // PROFILE
-
-
-    if (page === "profile") {
-
-
-        if (!userData.profileCreated) {
-
-
-
-            content = `
-
-
-            <h1>👤 Create Your Profile</h1>
-
-
-
-            <div class="card">
-
-
-            <p>Name</p>
-
-
-            <input id="profileName" placeholder="Your name">
-
-
-
-            <p>Athlete Type</p>
-
-
-            <select id="athleteType">
-
-
-            <option>Cheer Athlete</option>
-
-            <option>Strength Athlete</option>
-
-            <option>Flexibility Athlete</option>
-
-
-            </select>
-
-
-
-            <p>Main Goal</p>
-
-
-            <input id="goal" placeholder="Your goal">
-
-
-
-            <br><br>
-
-
-
-            <button onclick="createProfile()">
-
-            Save Profile
-
-            </button>
-
-
-
-            </div>
-
-
-            `;
-
-
-        }
-
-
-        else {
-
-
-
-            content = `
-
-
-            <h1>👤 Profile</h1>
-
-
-
-            <div class="card">
-
-
-            <h2>${userData.profileName}</h2>
-
-
-            <p>🤸 ${userData.athleteType}</p>
-
-
-            <p>🎯 Goal: ${userData.goal}</p>
-
-
-            <p>📅 Joined: ${userData.profileDate}</p>
-
-
-            </div>
-
-
-
-
-
-            <div class="card">
-
-
-            <p>⭐ Level: ${userData.level}</p>
-
-
-            <p>XP: ${userData.xp}</p>
-
-
-            <p>🔥 Streak: ${userData.streak}</p>
-
-
-            <p>💪 Workouts: ${userData.workoutsCompleted}</p>
-
-
-            </div>
-
-
-            `;
-
-
-        }
-
-
-    }
-
-
-
-
-
-
-
-
-
-    // BADGES
-
-
-    if (page === "badges") {
-
-
-        content = `
-
-
-        <h1>🏅 Badge Gallery</h1>
-
-
-
-        <div class="badge-gallery">
-
-
-        ${Object.keys(badges).map(badge => `
-
-
-
-        <div class="badge-card">
-
-
-        <h2>${badges[badge].icon}</h2>
-
-
-        <h3>${badges[badge].name}</h3>
-
-
-        <p>${badges[badge].description}</p>
-
-
-        </div>
-
-
-
-        `).join("")}
-
-
-        </div>
-
-
-        `;
-
-
-    }
-
-
-
-
-
-
-
-
-    // SETTINGS
-
-
-    if (page === "settings") {
-
-
-        content = `
-
-
-        <h1>⚙️ Settings</h1>
-
-
-
-        <div class="card">
-
-
-        <h3>🌈 App Mode</h3>
-
-
-
-        <button onclick="changeMode('Regular')">
-
-        💖 Regular
-
-        </button>
-
-
-
-        <button onclick="changeMode('Vacation')">
-
-        🤍 Vacation
-
-        </button>
-
-
-
-        <button onclick="changeMode('Period')">
-
-        ❤️ Period
-
-        </button>
-
-
-        </div>
-
-
-
-
-
-        <div class="card">
-
-
-        <h3>🥗 Nutrition</h3>
-
-
-        <label>
-
-
-        <input type="checkbox"
-
-        ${userData.arfidSupport ? "checked" : ""}
-
-        onclick="toggleARFID()">
-
-
-
-        ARFID Support Feature
-
-
-        </label>
-
-
-        </div>
-
-
-
-
-
-        <div class="card">
-
-
-        <button onclick="resetProgress()">
-
-        Reset Progress
-
-        </button>
-
-
-        </div>
-
-
-        `;
-
-
-    }
-
-
-
-
-
-
-
-
-    app.innerHTML = content + `
-
-
-    <div class="bottom-nav">
-
-
-    <button onclick="showPage('home')">🏠</button>
-
-
-    <button onclick="showPage('training')">💪</button>
-
-
-    <button onclick="showPage('badges')">🏅</button>
-
-
-    <button onclick="showPage('profile')">👤</button>
-
-
-    <button onclick="showPage('settings')">⚙️</button>
-
-
-    </div>
-
-
-    `;
+`;
 
 
 }
 
+
+
+
+
+
+// TRAINING
+
+if (page === "training") {
+
+
+const days = [
+
+"Sunday",
+
+"Monday",
+
+"Tuesday",
+
+"Wednesday",
+
+"Thursday",
+
+"Friday",
+
+"Saturday"
+
+];
+
+
+const today = days[new Date().getDay()];
+
+
+
+
+
+if (userData.mode === "Vacation") {
+
+
+content = `
+
+
+<h1>🤍 Vacation Workout</h1>
+
+
+<div class="card">
+
+
+${vacationWorkouts.workout.map(item => `
+
+
+<button class="workout-button" onclick="completeWorkout('${item}')">
+
+
+${userData.completedToday.includes(item) ? "✅" : "☐"}
+
+${item}
+
+
+</button>
+
+
+<br><br>
+
+
+`).join("")}
+
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+
+else {
+
+
+
+const workout = dailyWorkouts[today];
+
+
+
+content = `
+
+
+<h1>💪 Today's Workout</h1>
+
+<h2>${today}</h2>
+
+
+
+<div class="card">
+
+
+<h3>🌅 Morning</h3>
+
+
+
+${workout.morning.map(item => `
+
+
+<button class="workout-button" onclick="completeWorkout('${item}')">
+
+
+${userData.completedToday.includes(item) ? "✅" : "☐"}
+
+${item}
+
+
+</button>
+
+
+<br><br>
+
+
+`).join("")}
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h3>
+
+🌙 Nighttime
+
+${userData.mode === "Period" ? "(Optional)" : ""}
+
+
+</h3>
+
+
+
+${workout.nighttime.map(item => `
+
+
+<button class="workout-button" onclick="completeWorkout('${item}')">
+
+
+${userData.completedToday.includes(item) ? "✅" : "☐"}
+
+${item}
+
+
+</button>
+
+
+<br><br>
+
+
+`).join("")}
+
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+// PROFILE
+
+if (page === "profile") {
+
+
+if (!userData.profileCreated) {
+
+
+content = `
+
+
+<h1>👤 Create Your Profile</h1>
+
+
+<div class="card">
+
+
+<p>Name</p>
+
+<input id="profileName">
+
+
+<p>Athlete Type</p>
+
+
+<select id="athleteType">
+
+<option>Cheer Athlete</option>
+
+<option>Strength Athlete</option>
+
+<option>Flexibility Athlete</option>
+
+</select>
+
+
+
+<p>Main Goal</p>
+
+<input id="goal">
+
+
+
+<br><br>
+
+
+<button onclick="createProfile()">
+
+Save Profile
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+
+else {
+
+
+
+content = `
+
+
+<h1>👤 Profile</h1>
+
+
+<div class="card">
+
+
+<h2>${userData.profileName}</h2>
+
+
+<p>🤸 ${userData.athleteType}</p>
+
+
+<p>🎯 ${userData.goal}</p>
+
+
+<p>📅 Joined ${userData.profileDate}</p>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+
+<h3>📊 Training Stats</h3>
+
+
+<p>🔥 Core: ${userData.coreWorkouts}</p>
+
+<p>💪 Strength: ${userData.strengthWorkouts}</p>
+
+<p>🏋️ Upper Body: ${userData.upperBodyWorkouts}</p>
+
+<p>🦵 Lower Body: ${userData.lowerBodyWorkouts}</p>
+
+<p>🤸 Backspot: ${userData.backspotWorkouts}</p>
+
+<p>🩰 Flexibility: ${userData.flexibilitySessions}</p>
+
+<p>⭐ Jumps: ${userData.jumpSessions}</p>
+
+
+<hr>
+
+
+<p>⭐ Level: ${userData.level}</p>
+
+<p>XP: ${userData.xp}</p>
+
+<p>🔥 Streak: ${userData.streak}</p>
+
+<p>💪 Total Workouts: ${userData.workoutsCompleted}</p>
+
+
+</div>
+
+
+`;
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+// BADGES
+
+if (page === "badges") {
+
+
+content = `
+
+
+<h1>🏅 Badge Gallery</h1>
+
+
+<div class="badge-gallery">
+
+
+${Object.keys(badges).map(badge => `
+
+
+<div class="badge-card">
+
+
+<h2>${badges[badge].icon}</h2>
+
+<h3>${badges[badge].name}</h3>
+
+<p>${badges[badge].description}</p>
+
+
+</div>
+
+
+`).join("")}
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+
+
+
+
+
+
+// SETTINGS
+
+if (page === "settings") {
+
+
+content = `
+
+
+<h1>⚙️ Settings</h1>
+
+
+
+<div class="card">
+
+
+<h3>🌈 App Mode</h3>
+
+
+<button onclick="changeMode('Regular')">💖 Regular</button>
+
+
+<button onclick="changeMode('Vacation')">🤍 Vacation</button>
+
+
+<button onclick="changeMode('Period')">❤️ Period</button>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+
+<h3>🥗 Nutrition</h3>
+
+
+<label>
+
+
+<input type="checkbox"
+
+${userData.arfidSupport ? "checked" : ""}
+
+onclick="toggleARFID()">
+
+
+
+ARFID Support Feature
+
+
+</label>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+
+<button onclick="resetProgress()">
+
+Reset Progress
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+
+
+
+
+
+
+app.innerHTML = content + `
+
+
+<div class="bottom-nav">
+
+
+<button onclick="showPage('home')">🏠</button>
+
+<button onclick="showPage('training')">💪</button>
+
+<button onclick="showPage('badges')">🏅</button>
+
+<button onclick="showPage('profile')">👤</button>
+
+<button onclick="showPage('settings')">⚙️</button>
+
+
+</div>
+
+
+`;
+
+
+
+}
 
 
 
