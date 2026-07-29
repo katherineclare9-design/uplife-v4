@@ -1,9 +1,6 @@
 let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
-
-    // =====================
     // PROFILE
-    // =====================
 
     profileCreated: false,
 
@@ -16,20 +13,14 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
     profileDate: "",
 
 
-
-    // =====================
     // SETTINGS
-    // =====================
 
     mode: "Regular",
 
     arfidSupport: false,
 
 
-
-    // =====================
     // PROGRESS
-    // =====================
 
     xp: 0,
 
@@ -50,9 +41,7 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
 
 
-    // =====================
     // WORKOUT CATEGORIES
-    // =====================
 
     coreWorkouts: 0,
 
@@ -66,18 +55,16 @@ let userData = JSON.parse(localStorage.getItem("upliftData")) || {
 
     upperBodyWorkouts: 0,
 
-    jumpSessions: 0,
-
+    jumpSessions: 0
 
 };
 
 
 
 
-
+// SAVE FUNCTION
 
 function saveUserData() {
-
 
     localStorage.setItem(
 
@@ -87,20 +74,14 @@ function saveUserData() {
 
     );
 
-
 }
 
 
 
 
 
-
-
-// =====================
-// RESET ONLY PROGRESS
+// RESET ONLY STATS
 // KEEPS PROFILE + SETTINGS
-// =====================
-
 
 function resetProgress() {
 
@@ -112,12 +93,8 @@ function resetProgress() {
     );
 
 
-
     if (confirmReset) {
 
-
-
-        // XP + LEVEL
 
         userData.xp = 0;
 
@@ -126,14 +103,8 @@ function resetProgress() {
         userData.xpToNextLevel = 100;
 
 
-
-        // STREAK
-
         userData.streak = 0;
 
-
-
-        // WORKOUT HISTORY
 
         userData.workoutsCompleted = 0;
 
@@ -141,14 +112,9 @@ function resetProgress() {
         userData.completedWorkouts = [];
 
 
-
-        // BADGES
-
         userData.unlockedBadges = [];
 
 
-
-        // CATEGORY STATS
 
         userData.coreWorkouts = 0;
 
@@ -166,16 +132,12 @@ function resetProgress() {
 
 
 
-
         saveUserData();
-
 
 
         location.reload();
 
 
-
     }
-
 
 }
