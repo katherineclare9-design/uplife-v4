@@ -49,6 +49,15 @@ const workoutTypes = {
     },
 
 
+    "Full backspot Strength workout": {
+
+        category: "backspot",
+
+        xp: 100
+
+    },
+
+
     "Lower body workout": {
 
         category: "lowerBody",
@@ -72,6 +81,36 @@ const workoutTypes = {
         category: "strength",
 
         xp: 100
+
+    },
+
+
+
+    // VACATION MODE
+
+    "25 pushups": {
+
+        category: "strength",
+
+        xp: 25
+
+    },
+
+
+    "In and outs (45 secs x 2)": {
+
+        category: "core",
+
+        xp: 25
+
+    },
+
+
+    "Plank (1 min x 2)": {
+
+        category: "core",
+
+        xp: 25
 
     }
 
